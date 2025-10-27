@@ -4,6 +4,7 @@ public class DataLoaderService
 {
 	public async Task<IEnumerable<ReportTextBlocks>> GetAllTextBlocks(string dataFolder)
 	{
+		Console.WriteLine("The data folder: " + dataFolder);
 		if (!Directory.Exists(dataFolder))
 		{
 			Console.WriteLine($"Data folder not found: {dataFolder}");
