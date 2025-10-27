@@ -13,36 +13,37 @@ flowchart TD
     B --> C[For each test case]
     C --> D[Compare Original vs Persisted → persistedChanges]
     C --> E[Compare Original vs New → requestedChanges]
-    D --> F[ConflictResolutionService.Resolve()]
+    D --> F[Resolve Conflicts]
 
-    subgraph G[Conflict Resolution Flow]
-        F --> G1[Iterate over persisted and requested lines]
-        G1 --> G2{Line type comparison}
-        
-        G2 -->|Both Unchanged| G3[Keep original line → Append to result]
+    %% Conflict resolution process
+    subgraph G[ConflictResolutionService.Resolve()]
+        F --> G1[Iterate persisted & requested lines]
+        G1 --> G2{Compare line types}
+
+        G2 -->|Both Unchanged| G3[Keep original line]
         G2 -->|Only Requested changed| G4[Accept requested change]
         G2 -->|Only Persisted changed| G5[Accept persisted change]
         G2 -->|Both changed differently| G6[Throw TextConflictException]
         G2 -->|Both deleted same line| G7[Skip deletion]
-        
-        G6 --> H[Print conflict details: persisted vs requested]
+
+        G3 --> G8[Continue]
+        G4 --> G8
+        G5 --> G8
+        G6 --> G8
+        G7 --> G8
     end
 
-    G3 --> I[Continue to next lines]
-    G4 --> I
-    G5 --> I
-    G7 --> I
-    H --> I
-    I --> J[Append remaining non-deleted lines]
-    J --> K[Merge all into final resolved HTML text]
+    G8 --> H[Append remaining non-deleted lines]
+    H --> I[Merge all into final resolved HTML text]
+    I --> J[Print result or conflict]
+    J --> K[Next test case]
+    K --> L[End]
 
-    K --> L[Print result or conflict]
-    L --> M[Next test case]
-    M --> N[End]
-
+    %% Styling for clarity
     style A fill:#aae,stroke:#336,stroke-width:1px,color:#fff
     style G fill:#eef,stroke:#446,stroke-width:1px
     style G6 fill:#faa,stroke:#933,stroke-width:1px
+
 
 ```
 | Component                     | Responsibility                                                                                                                          |
