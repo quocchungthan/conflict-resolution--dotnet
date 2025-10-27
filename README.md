@@ -54,4 +54,4 @@ flowchart TD
 
 
 ## Tests again test data in Data/ folder
-[!test result](./docs/testresult-27-10-2025.png)
+![test result](./docs/testresult-27-10-2025.png)
