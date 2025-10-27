@@ -32,7 +32,7 @@ flowchart TD
     G4 --> I
     G5 --> I
     G7 --> I
-    H --> K
+    H --> L
     I --> J[Append remaining non-deleted lines]
     J --> K[Merge all into final resolved HTML text]
 
